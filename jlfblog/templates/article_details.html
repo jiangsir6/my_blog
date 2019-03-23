@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>{{ article.title }}</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+    <noscript>
+        <link rel="stylesheet" href="{% static 'css/noscript.css' %}"/>
+    </noscript>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a href="index.html" class="title">Jlfblog</a>
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">首页</a></li>
+            {#						<li><a href="{% url 'articles:category' %}"></a></li>#}
+        </ul>
+    </nav>
+</header>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <section id="main" class="wrapper">
+        <div class="inner">
+            <h1 class="major">{{ article.title }}</h1>
+            {#							<span class="image fit"><img src="images/pic04.jpg" alt="" /></span>#}
+            <p>作者：{{ article.author.username }}&nbsp;&nbsp;&nbsp;&nbsp;发表时间：{{ article.add_time }}</p>
+            <p>{{ article.content }}</p>
+    </section>
+    <div>
+        <h3>评论列表</h3>
+        <ul>
+            {% if comments %}
+                {% for comment in comments %}
+                    <li>{{ comment.comment_person }}:{{ comment.comment_content }}</li>
+                    <p>{{ comment.comment_time }}</p>
+                {% endfor %}
+            {% else %}
+                <p>暂无评论</p>
+            {% endif %}
+        </ul>
+        {% if request.session.username %}
+            <form action="{% url 'articles:add_comment' article.id %}" method="post" id="commentform">
+                {% csrf_token %}
+                <p><textarea name="comment" id="comment" cols="25" rows="5" tabindex="4"
+                             class="message_input"></textarea></p>
+                <p>
+                    <input name="submit" type="submit" id="submit" tabindex="5" value="提交评论" class="button"/>
+                </p>
+            </form>
+        {% else %}
+            请<a href="{% url 'users:user_login' %}">登录</a>后发表评论
+        {% endif %}
+    </div>
+</div>
+
+<!-- Footer -->
+<footer id="footer" class="wrapper alt">
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Untitled. All rights reserved.</li>
+            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.scrollex.min.js' %}"></script>
+<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+<script src="{% static 'js/browser.min.js' %}"></script>
+<script src="{% static 'js/breakpoints.min.js' %}"></script>
+<script src="{% static 'js/util.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

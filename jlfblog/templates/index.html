@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+<head>
+    <title>Hyperspace by HTML5 UP</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+    <noscript>
+        <link rel="stylesheet" href="{% static 'css/noscript.css' %}"/>
+    </noscript>
+</head>
+<body class="is-preload">
+
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="#intro">首页</a></li>
+                <li><a href="#one">热门文章</a></li>
+                <li><a href="#two">文章分类</a></li>
+                <li><a href="#three">关于我</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Intro -->
+    <section id="intro" class="wrapper style1 fullscreen fade-up">
+        <div class="inner">
+            <h1>JLF blog</h1>
+            <p>一个分享编程知识的个人网站，欢迎留言评论</p>
+            <ul class="actions">
+                {% if request.session.username %}
+                   <li>欢迎访问！{{ request.session.username }}</li>
+                    <li><a href={% url 'users:user_logout' %}>点击退出</a></li>
+                {% else %}
+                    <li><a href={% url 'users:user_login' %} class="button scrolly">登录</a></li>
+                    <li><a href={% url 'users:user_register' %} class="button scrolly">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </section>
+
+    <!-- One -->
+    <section id="one" class="wrapper style2 spotlights">
+        {% for click_obj in click_order %}
+        <section>
+{#            <a href="#" class="image"><img src="{{ MEDIA_URL }}{{ click_obj.image }}" alt="" data-position="center center"/></a>#}
+            <div class="content">
+                <div class="inner">
+                    <h2>{{ click_obj.title }}</h2>
+                    <p>{{ click_obj.desc }}</p>
+                    <p>浏览({{ click_obj.click_num }})&nbsp;&nbsp;评论({{ click_obj.comment_num }})</p>
+                    <ul class="actions">
+                        <li><a href="{% url 'articles:article_details' click_obj.id %}" class="button">查看文章</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+    </section>
+
+    <!-- Two -->
+    <section id="two" class="wrapper style3 fade-up">
+        <div class="inner">
+            <h2>文章分类</h2>
+            <p></p>
+            <div class="features">
+                <section>
+                    <span class="icon major fa-code"></span>
+                    <h3><a href={% url 'articles:category' 1 %}>python基础语法</a></h3>
+                    <p></p>
+                </section>
+                <section>
+                    <span class="icon major fa-lock"></span>
+                    <h3><a href={% url 'articles:category' 2 %}>Linux操作系统</a></h3>
+                    <p></p>
+                </section>
+                <section>
+                    <span class="icon major fa-cog"></span>
+                    <h3><a href={% url 'articles:category' 3 %}>数据库常识</a></h3>
+                    <p></p>
+                </section>
+                <section>
+                    <span class="icon major fa-desktop"></span>
+                    <h3><a href={% url 'articles:category' 4 %}>python框架</a></h3>
+                    <p></p>
+                </section>
+                <section>
+                    <span class="icon major fa-chain"></span>
+                    <h3><a href={% url 'articles:category' 5 %}>python爬虫</a></h3>
+                    <p></p>
+                </section>
+                <section>
+                    <span class="icon major fa-diamond"></span>
+                    <h3><a href={% url 'articles:category' 6 %}>程序员新闻</a></h3>
+                    <p></p>
+                </section>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Three -->
+    <section id="three" class="wrapper style1 fade-up">
+        <div class="inner">
+            <h2>关于我</h2>
+            <p></p>
+            <div class="split style1">
+                <section>
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        <div class="fields">
+                            <div class="field half">
+                                <label for="姓名">Name</label>
+                                <input type="text" name="name" id="name"/>
+                            </div>
+                            <div class="field half">
+                                <label for="邮箱">Email</label>
+                                <input type="text" name="email" id="email"/>
+                            </div>
+                            <div class="field">
+                                <label for="留言">Message</label>
+                                <textarea name="message" id="message" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><a href="" class="button submit">发送</a></li>
+                        </ul>
+                    </form>
+                </section>
+                <section>
+                    <ul class="contact">
+                        <li>
+                            <h3>地址</h3>
+                            <span>北京市海淀区</span>
+                        </li>
+                        <li>
+                            <h3>邮箱</h3>
+                            <a href="#">18561699217@163.com</a>
+                        </li>
+                        <li>
+                            <h3>电话</h3>
+                            <span>+8618561699217</span>
+                        </li>
+{#                        <li>#}
+{#                            <h3>Social</h3>#}
+{#                            <ul class="icons">#}
+{#                                <li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>#}
+{#                                <li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>#}
+{#                                <li><a href="#" class="fa-github"><span class="label">GitHub</span></a></li>#}
+{#                                <li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>#}
+{#                                <li><a href="#" class="fa-linkedin"><span class="label">LinkedIn</span></a></li>#}
+{#                            </ul>#}
+{#                        </li>#}
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer id="footer" class="wrapper style1-alt">
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Untitled. All rights reserved.</li>
+            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.scrollex.min.js' %}"></script>
+<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+<script src="{% static 'js/browser.min.js' %}"></script>
+<script src="{% static 'js/breakpoints.min.js' %}"></script>
+<script src="{% static 'js/util.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+</html>
