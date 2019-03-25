@@ -17,11 +17,18 @@ def get_article(request,articleid):
 
     article = ArticleInfo.objects.get(pk=articleid)
     comments = CommentInfo.objects.filter(comment_article=articleid)
+    article_content = markdown(article.content,
+                               extensions=[
+                                   # 包含 缩写、表格等常用扩展
+                                   'markdown.extensions.extra',
+                                   # 语法高亮扩展
+                                   'markdown.extensions.codehilite',
+                               ])
     article.click_num += 1
     article.save()
 
 
-    return render(request,'article_details.html',{'article':article,'comments':comments})
+    return render(request,'article_details.html',{'article':article,'comments':comments,'article_content':article_content})
 
 
 

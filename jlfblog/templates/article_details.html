@@ -37,7 +37,7 @@
             <h1 class="major">{{ article.title }}</h1>
             {#							<span class="image fit"><img src="images/pic04.jpg" alt="" /></span>#}
             <p>作者：{{ article.author.username }}&nbsp;&nbsp;&nbsp;&nbsp;发表时间：{{ article.add_time }}</p>
-            <p>{{ article.content }}</p>
+            <p>{{ article_content|safe }}</p>
     </section>
     <div>
         <h3>评论列表</h3>
