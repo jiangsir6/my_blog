@@ -37,7 +37,7 @@ def user_login(request):
             if user.exists():
                 user = user.first()
                 code = request.session['code']
-                print(code, checkcode)
+
                 if code.lower() == checkcode.lower():
                     if user:
                         if check_password(password, user.password):
