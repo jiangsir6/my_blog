@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,reverse
 from articles.models import Category,ArticleInfo,CommentInfo
 from users.models import UserProfile
+from markdown import markdown
 # Create your views here.
 
 

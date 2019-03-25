@@ -15,10 +15,9 @@ def index(request):
     #获取所有文章
     articles = ArticleInfo.objects.all()
     #获得点击量前三的作为热门文章
-    click_order = articles.order_by('click_num')[:3:-1]
+    click_order = articles.order_by('-click_num')[:3]
     #获得所有标签
     categorys = Category.objects.all()
-    print(categorys)
     return render(request, 'index.html',{'click_order':click_order,'categorys':categorys})
 
 #用户登录
