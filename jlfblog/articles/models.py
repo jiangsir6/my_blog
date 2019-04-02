@@ -44,7 +44,7 @@ class CommentInfo(models.Model):
     comment_time = models.DateTimeField(default=datetime.now,verbose_name='评论时间')
 
     def __str__(self):
-        return self.comment_person
+        return str(self.comment_person)
 
     class Meta:
         verbose_name = '文章评论表'
