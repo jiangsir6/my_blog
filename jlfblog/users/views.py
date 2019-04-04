@@ -107,7 +107,7 @@ def get_code(request):
 
     image_draw = ImageDraw.Draw(image, 'RGB')
 
-    image_font = ImageFont.truetype('C:/Windows/Fonts/arialbi.ttf', 23)
+    image_font = ImageFont.truetype('/root/blog/ARIALBI.TTF', 23)
     source = 'qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPPASDFGHJKLZXCVBNM'
     code = ''
 
