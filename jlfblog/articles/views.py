@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect,reverse
 from articles.models import Category,ArticleInfo,CommentInfo
 from users.models import UserProfile
 from markdown import markdown
+from django.db.models import Q
+from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 # Create your views here.
 
 
@@ -10,8 +12,20 @@ def categorys(request,categoryid):
     category = Category.objects.get(pk=categoryid)
     articles = ArticleInfo.objects.filter(category=categoryid)
 
+    # 分页
+    paginator = Paginator(articles, 3)
 
-    return render(request,'article_list.html',{'articles':articles,'category':category})
+    try:
+        num = request.GET.get('page', 1)
+        number = paginator.page(num)
+    # 如果不是整数则显示第一页的内容
+    except PageNotAnInteger:
+        number = paginator.page(1)
+    except EmptyPage:
+        number = paginator.page(paginator.num_pages)
+
+
+    return render(request,'article_list.html',{'articles':number,'category':category,'num':num})
 
 
 def get_article(request,articleid):
@@ -51,3 +65,24 @@ def add_comment(request,articleid):
     article.save()
 
     return redirect(reverse('articles:article_details',args=[articleid]))
+
+def search_article(request):
+    #获取关键词
+    keyword = request.GET.get('search')
+    #获取包含关键词的文章
+    keyword_article = ArticleInfo.objects.filter(Q(title__icontains=keyword)|Q(desc__icontains=keyword))
+
+    #分页
+    paginator = Paginator(keyword_article,3)
+
+    try:
+        num = request.GET.get('page',1)
+        number = paginator.page(num)
+    #如果不是整数则显示第一页的内容
+    except PageNotAnInteger:
+        number = paginator.page(1)
+    except EmptyPage:
+        number = paginator.page(paginator.num_pages)
+
+
+    return render(request,'search_article_list.html',{'keyword':keyword,'articles':number,'num':num})

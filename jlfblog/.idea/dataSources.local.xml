@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="myblog1@localhost" uuid="e76243d1-bcfe-4f81-a4fc-3894a2f193cb">
+    <data-source name="myblog1@localhost" uuid="4bf33de0-efc8-4fa2-9195-3ac68dcb9b4a">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
       <secret-storage>master_key</secret-storage>
       <first-sync>true</first-sync>

@@ -19,3 +19,7 @@ class UserLoginForm(forms.Form):
 								error_messages={'required': '密码必须填写', 'max_length': '长度最长18位',
 												'min_length': '密码不能少于6位'})
     checkcode = fields.CharField(error_messages={'required': '验证码必须填写'})
+
+
+class MessageBoard(forms.Form):
+    pass

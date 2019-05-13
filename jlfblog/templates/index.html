@@ -22,6 +22,7 @@
                 <li><a href="#two">文章分类</a></li>
                 <li><a href="#three">关于我</a></li>
             </ul>
+
         </nav>
     </div>
 </section>
@@ -36,32 +37,38 @@
             <p>一个分享编程知识的个人网站，欢迎留言评论</p>
             <ul class="actions">
                 {% if request.session.username %}
-                   <li>欢迎访问！{{ request.session.username }}</li>
+                    <li>欢迎访问！{{ request.session.username }}</li>
                     <li><a href={% url 'users:user_logout' %}>点击退出</a></li>
                 {% else %}
                     <li><a href={% url 'users:user_login' %} class="button scrolly">登录</a></li>
                     <li><a href={% url 'users:user_register' %} class="button scrolly">注册</a></li>
                 {% endif %}
             </ul>
+            <form method="get" name="form" onsubmit="return beforeSubmit(this);" action="{% url 'articles:search_article' %}">
+            <div id="box">
+                <input type="text"  name="search" placeholder="输入关键字搜索文章">
+                <input type="submit"  id="search1" value="搜索">
+            </div>
+            </form>
         </div>
     </section>
 
     <!-- One -->
     <section id="one" class="wrapper style2 spotlights">
         {% for click_obj in click_order %}
-        <section>
-{#            <a href="#" class="image"><img src="{{ MEDIA_URL }}{{ click_obj.image }}" alt="" data-position="center center"/></a>#}
-            <div class="content">
-                <div class="inner">
-                    <h2>{{ click_obj.title }}</h2>
-                    <p>{{ click_obj.desc }}</p>
-                    <p>浏览({{ click_obj.click_num }})&nbsp;&nbsp;评论({{ click_obj.comment_num }})</p>
-                    <ul class="actions">
-                        <li><a href="{% url 'articles:article_details' click_obj.id %}" class="button">查看文章</a></li>
-                    </ul>
+            <section>
+                {#            <a href="#" class="image"><img src="{{ MEDIA_URL }}{{ click_obj.image }}" alt="" data-position="center center"/></a>#}
+                <div class="content">
+                    <div class="inner">
+                        <h2>{{ click_obj.title }}</h2>
+                        <p>{{ click_obj.desc }}</p>
+                        <p>浏览({{ click_obj.click_num }})&nbsp;&nbsp;评论({{ click_obj.comment_num }})</p>
+                        <ul class="actions">
+                            <li><a href="{% url 'articles:article_details' click_obj.id %}" class="button">查看文章</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         {% endfor %}
     </section>
 
@@ -73,32 +80,32 @@
             <div class="features">
                 <section>
                     <span class="icon major fa-code"></span>
-                    <h3><a href={% url 'articles:category' 1 %}>python基础语法</a></h3>
+                    <h3><a href={% url 'articles:category' 1%}?page=1>python基础语法({{ c1 }})</a></h3>
                     <p></p>
                 </section>
                 <section>
                     <span class="icon major fa-lock"></span>
-                    <h3><a href={% url 'articles:category' 2 %}>Linux操作系统</a></h3>
+                    <h3><a href={% url 'articles:category' 2 %}?page=1>Linux操作系统({{ c2 }})</a></h3>
                     <p></p>
                 </section>
                 <section>
                     <span class="icon major fa-cog"></span>
-                    <h3><a href={% url 'articles:category' 3 %}>数据库常识</a></h3>
+                    <h3><a href={% url 'articles:category' 3 %}?page=1>数据库常识({{ c3 }})</a></h3>
                     <p></p>
                 </section>
                 <section>
                     <span class="icon major fa-desktop"></span>
-                    <h3><a href={% url 'articles:category' 4 %}>网络编程及web框架</a></h3>
+                    <h3><a href={% url 'articles:category' 4 %}?page=1>网络编程及web框架({{ c4 }})</a></h3>
                     <p></p>
                 </section>
                 <section>
                     <span class="icon major fa-chain"></span>
-                    <h3><a href={% url 'articles:category' 5 %}>python爬虫</a></h3>
+                    <h3><a href={% url 'articles:category' 5 %}?page=1>python爬虫({{ c5 }})</a></h3>
                     <p></p>
                 </section>
                 <section>
                     <span class="icon major fa-diamond"></span>
-                    <h3><a href={% url 'articles:category' 6 %}>程序员新闻</a></h3>
+                    <h3><a href={% url 'articles:category' 6 %}?page=1>程序员新闻({{ c6 }})</a></h3>
                     <p></p>
                 </section>
             </div>
@@ -110,10 +117,11 @@
     <section id="three" class="wrapper style1 fade-up">
         <div class="inner">
             <h2>关于我</h2>
+            <h3>有问题可联系我的邮箱和电话，也可以在下方留言，收到留言后我会第一时间回复您</h3>
             <p></p>
             <div class="split style1">
                 <section>
-                    <form method="post" action="#">
+                    <form method="post" name='board' onsubmit="return leave_message(this)" action="{% url 'index' %}">
                         {% csrf_token %}
                         <div class="fields">
                             <div class="field half">
@@ -130,7 +138,7 @@
                             </div>
                         </div>
                         <ul class="actions">
-                            <li><a href="" class="button submit">发送</a></li>
+                            <input type="submit"  id="send" value="点击发送">
                         </ul>
                     </form>
                 </section>
@@ -148,16 +156,16 @@
                             <h3>电话</h3>
                             <span>+8618561699217</span>
                         </li>
-{#                        <li>#}
-{#                            <h3>Social</h3>#}
-{#                            <ul class="icons">#}
-{#                                <li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>#}
-{#                                <li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>#}
-{#                                <li><a href="#" class="fa-github"><span class="label">GitHub</span></a></li>#}
-{#                                <li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>#}
-{#                                <li><a href="#" class="fa-linkedin"><span class="label">LinkedIn</span></a></li>#}
-{#                            </ul>#}
-{#                        </li>#}
+                        {#                        <li>#}
+                        {#                            <h3>Social</h3>#}
+                        {#                            <ul class="icons">#}
+                        {#                                <li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>#}
+                        {#                                <li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>#}
+                        {#                                <li><a href="#" class="fa-github"><span class="label">GitHub</span></a></li>#}
+                        {#                                <li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>#}
+                        {#                                <li><a href="#" class="fa-linkedin"><span class="label">LinkedIn</span></a></li>#}
+                        {#                            </ul>#}
+                        {#                        </li>#}
                     </ul>
                 </section>
             </div>
@@ -177,6 +185,46 @@
 </footer>
 
 <!-- Scripts -->
+<script type="text/javascript">
+
+     function beforeSubmit(form){
+        //判断是否存在内容
+        if(form.search.value==''){
+            alert('请输入关键字');
+            //阻止提交表单
+            return false;
+        }
+        return true
+
+
+    }
+</script>
+<script>
+    function leave_message(board){
+        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+        if(board.name.value==''){
+            alert('请填写姓名');
+            return false;
+        }
+        if(board.email.value==''){
+            alert('请填写邮箱');
+            return false;
+        }
+        else if(!reg.test(board.email.value)){
+            alert('邮箱格式不正确');
+            return false;
+        }
+        else{
+            if(board.message.value==''){
+            alert('不能发空内容');
+            return false;
+        }
+        }
+
+        alert('发送成功！')
+        return true
+    }
+</script>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/jquery.scrollex.min.js' %}"></script>
 <script src="{% static 'js/jquery.scrolly.min.js' %}"></script>

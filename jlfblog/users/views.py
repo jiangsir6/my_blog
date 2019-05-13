@@ -5,8 +5,9 @@ from articles.models import ArticleInfo,Category
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import login, logout
 import random
+from django.db.models import Count
 from PIL import Image, ImageDraw, ImageFont
-
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -18,7 +19,27 @@ def index(request):
     click_order = articles.order_by('-click_num')[:3]
     #获得所有标签
     categorys = Category.objects.all()
-    return render(request, 'index.html',{'click_order':click_order,'categorys':categorys})
+    #统计所有分类的文章个数
+    c1 = ArticleInfo.objects.filter(category=1).aggregate(Count('id'))['id__count']
+    c2 = ArticleInfo.objects.filter(category=2).aggregate(Count('id'))['id__count']
+    c3 = ArticleInfo.objects.filter(category=3).aggregate(Count('id'))['id__count']
+    c4 = ArticleInfo.objects.filter(category=4).aggregate(Count('id'))['id__count']
+    c5 = ArticleInfo.objects.filter(category=5).aggregate(Count('id'))['id__count']
+    c6 = ArticleInfo.objects.filter(category=6).aggregate(Count('id'))['id__count']
+    #处理留言
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        send_mail('感谢您的留言', '您的留言我已收到，看到留言后我会第一时间回复您', 'jlfisgood@163.com',
+                  [email], fail_silently=False)
+
+        send_mail('有新的留言', '{}给你留言：{}'.format(name,message), 'jlfisgood@163.com',
+                  ['18561699217@163.com'], fail_silently=False)
+
+    return render(request, 'index.html',{
+        'click_order':click_order,'categorys':categorys,'c1':c1,'c2':c2,'c3':c3,'c4':c4,'c5':c5,'c6':c6})
 
 #用户登录
 def user_login(request):
@@ -26,18 +47,20 @@ def user_login(request):
         return render(request, 'user_login.html')
 
     else:
+        #获取表单信息
         user_login_form = UserLoginForm(request.POST)
-
+         #判断表单信息
         if user_login_form.is_valid():
             username = user_login_form.cleaned_data['username']
             password = user_login_form.cleaned_data['password']
             checkcode = user_login_form.cleaned_data['checkcode']
 
             user = UserProfile.objects.filter(username=username)
+            #判断用户是否注册
             if user.exists():
                 user = user.first()
                 code = request.session['code']
-
+            #密码核对
                 if code.lower() == checkcode.lower():
                     if user:
                         if check_password(password, user.password):
@@ -128,3 +151,4 @@ def get_code(request):
     image.save(buf, 'png')
 
     return HttpResponse(buf.getvalue(), 'image/png')
+

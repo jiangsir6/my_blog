@@ -3890,3 +3890,73 @@ input, select, textarea {
 			}
 
 		}
+
+
+
+#box{
+        width: 350px;
+        margin: 30px auto;
+        font-family: 'Microsoft YaHei';
+        font-size: 14px;
+	    float: left;
+    }
+    input{
+        width: 260px;
+        border: 1px solid #e2e2e2;
+        height: 30px;
+        float: left;
+
+        background-repeat: no-repeat;
+        background-size: 25px;
+        background-position:5px center;
+        padding:0 0 0 40px;
+    }
+#box #search1{
+        width: 87px;
+        height: 32px;
+        float: right;
+        background: black;
+        color: white;
+        text-align: center;
+        line-height: 20px;
+        cursor: pointer;
+	    padding-right: 10px;
+	    padding-left: 10px;
+    }
+
+.pagination > li {
+  display: inline;
+}
+
+
+
+.pagination > li a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #337ab7;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.pagination .on{
+	color: #fff;
+  cursor: not-allowed;
+  background-color: #337ab7;
+
+}
+
+.pagination .off{
+
+	cursor: not-allowed;
+}
+
+#send{
+	width: 168px;
+	padding-right: 1px;
+	padding-left: 1px;
+}
