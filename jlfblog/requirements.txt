@@ -35,4 +35,4 @@ redis==2.10.6
 singledispatch==3.4.0.3
 six==1.12.0
 SQLAlchemy==1.2.15
-Werkzeug==0.14.1
+Werkzeug==0.15.3
