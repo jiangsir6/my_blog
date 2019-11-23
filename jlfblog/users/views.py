@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, HttpResponse
 from users.forms import UserRegisterForm, UserLoginForm
 from users.models import UserProfile
-from articles.models import ArticleInfo,Category
+from articles.models import ArticleInfo, Category
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import login, logout
 import random
@@ -9,24 +9,25 @@ from django.db.models import Count
 from PIL import Image, ImageDraw, ImageFont
 from django.core.mail import send_mail
 
+
 # Create your views here.
 
 
 def index(request):
-    #获取所有文章
+    # 获取所有文章
     articles = ArticleInfo.objects.all()
-    #获得点击量前三的作为热门文章
+    # 获得点击量前三的作为热门文章
     click_order = articles.order_by('-click_num')[:3]
-    #获得所有标签
+    # 获得所有标签
     categorys = Category.objects.all()
-    #统计所有分类的文章个数
+    # 统计所有分类的文章个数
     c1 = ArticleInfo.objects.filter(category=1).aggregate(Count('id'))['id__count']
     c2 = ArticleInfo.objects.filter(category=2).aggregate(Count('id'))['id__count']
     c3 = ArticleInfo.objects.filter(category=3).aggregate(Count('id'))['id__count']
     c4 = ArticleInfo.objects.filter(category=4).aggregate(Count('id'))['id__count']
     c5 = ArticleInfo.objects.filter(category=5).aggregate(Count('id'))['id__count']
     c6 = ArticleInfo.objects.filter(category=6).aggregate(Count('id'))['id__count']
-    #处理留言
+    # 处理留言
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -35,32 +36,33 @@ def index(request):
         send_mail('感谢您的留言', '您的留言我已收到，看到留言后我会第一时间回复您', 'jlfisgood@163.com',
                   [email], fail_silently=False)
 
-        send_mail('有新的留言', '{}给你留言：{}'.format(name,message), 'jlfisgood@163.com',
+        send_mail('有新的留言', '{}给你留言：{}'.format(name, message), 'jlfisgood@163.com',
                   ['18561699217@163.com'], fail_silently=False)
 
-    return render(request, 'index.html',{
-        'click_order':click_order,'categorys':categorys,'c1':c1,'c2':c2,'c3':c3,'c4':c4,'c5':c5,'c6':c6})
+    return render(request, 'index.html', {
+        'click_order': click_order, 'categorys': categorys, 'c1': c1, 'c2': c2, 'c3': c3, 'c4': c4, 'c5': c5, 'c6': c6})
 
-#用户登录
+
+# 用户登录
 def user_login(request):
     if request.method == 'GET':
         return render(request, 'user_login.html')
 
     else:
-        #获取表单信息
+        # 获取表单信息
         user_login_form = UserLoginForm(request.POST)
-         #判断表单信息
+        # 判断表单信息
         if user_login_form.is_valid():
             username = user_login_form.cleaned_data['username']
             password = user_login_form.cleaned_data['password']
             checkcode = user_login_form.cleaned_data['checkcode']
 
             user = UserProfile.objects.filter(username=username)
-            #判断用户是否注册
+            # 判断用户是否注册
             if user.exists():
                 user = user.first()
                 code = request.session['code']
-            #密码核对
+                # 密码核对
                 if code.lower() == checkcode.lower():
                     if user:
                         if check_password(password, user.password):
@@ -76,7 +78,8 @@ def user_login(request):
             else:
                 return render(request, 'user_login.html', {'msg': '该用户不存在,请确认再登录'})
 
-#用户注册
+
+# 用户注册
 def user_register(request):
     if request.method == 'GET':
         return render(request, 'user_register.html')
@@ -108,7 +111,8 @@ def user_register(request):
             print(user_reform.errors)
             return render(request, 'user_register.html', {'user_reform': user_reform})
 
-#用户登出
+
+# 用户登出
 def user_logout(request):
     logout(request)
     return redirect('index')
@@ -122,7 +126,7 @@ def get_color():
     return (red, green, blue)
 
 
-#生成验证码
+# 生成验证码
 def get_code(request):
     size = (100, 40)
     color = get_color()
@@ -151,4 +155,3 @@ def get_code(request):
     image.save(buf, 'png')
 
     return HttpResponse(buf.getvalue(), 'image/png')
-

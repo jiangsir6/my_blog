@@ -2,10 +2,10 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="myblog1@localhost" uuid="4bf33de0-efc8-4fa2-9195-3ac68dcb9b4a">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
       <secret-storage>master_key</secret-storage>
-      <first-sync>true</first-sync>
       <user-name>root</user-name>
+      <schema-mapping />
       <ssh-properties>
         <enabled>true</enabled>
         <proxy-host>39.105.111.27</proxy-host>

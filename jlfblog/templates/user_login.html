@@ -48,10 +48,10 @@
 </div>
 <script>
 
-    $('#checkcode').click(function(){
+    $('#checkcode').click(function () {
         alert('刷新成功！')
         console.log('刷新成功！')
-        $(this).attr('src','{% url 'users:get_code' %}?ran='+Math.random())
+        $(this).attr('src', '{% url 'users:get_code' %}?ran=' + Math.random())
     })
 
 </script>

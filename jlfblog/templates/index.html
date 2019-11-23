@@ -44,11 +44,12 @@
                     <li><a href={% url 'users:user_register' %} class="button scrolly">注册</a></li>
                 {% endif %}
             </ul>
-            <form method="get" name="form" onsubmit="return beforeSubmit(this);" action="{% url 'articles:search_article' %}">
-            <div id="box">
-                <input type="text"  name="search" placeholder="输入关键字搜索文章">
-                <input type="submit"  id="search1" value="搜索">
-            </div>
+            <form method="get" name="form" onsubmit="return beforeSubmit(this);"
+                  action="{% url 'articles:search_article' %}">
+                <div id="box">
+                    <input type="text" name="search" placeholder="输入关键字搜索文章">
+                    <input type="submit" id="search1" value="搜索">
+                </div>
             </form>
         </div>
     </section>
@@ -80,7 +81,7 @@
             <div class="features">
                 <section>
                     <span class="icon major fa-code"></span>
-                    <h3><a href={% url 'articles:category' 1%}?page=1>python基础语法({{ c1 }})</a></h3>
+                    <h3><a href={% url 'articles:category' 1 %}?page=1>python基础语法({{ c1 }})</a></h3>
                     <p></p>
                 </section>
                 <section>
@@ -138,7 +139,7 @@
                             </div>
                         </div>
                         <ul class="actions">
-                            <input type="submit"  id="send" value="点击发送">
+                            <input type="submit" id="send" value="点击发送">
                         </ul>
                     </form>
                 </section>
@@ -187,9 +188,9 @@
 <!-- Scripts -->
 <script type="text/javascript">
 
-     function beforeSubmit(form){
+    function beforeSubmit(form) {
         //判断是否存在内容
-        if(form.search.value==''){
+        if (form.search.value == '') {
             alert('请输入关键字');
             //阻止提交表单
             return false;
@@ -200,25 +201,23 @@
     }
 </script>
 <script>
-    function leave_message(board){
+    function leave_message(board) {
         var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
-        if(board.name.value==''){
+        if (board.name.value == '') {
             alert('请填写姓名');
             return false;
         }
-        if(board.email.value==''){
+        if (board.email.value == '') {
             alert('请填写邮箱');
             return false;
-        }
-        else if(!reg.test(board.email.value)){
+        } else if (!reg.test(board.email.value)) {
             alert('邮箱格式不正确');
             return false;
-        }
-        else{
-            if(board.message.value==''){
-            alert('不能发空内容');
-            return false;
-        }
+        } else {
+            if (board.message.value == '') {
+                alert('不能发空内容');
+                return false;
+            }
         }
 
         alert('发送成功！')
